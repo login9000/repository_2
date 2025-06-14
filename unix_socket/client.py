@@ -24,7 +24,9 @@ is_first_second = False
 for _ in range(10000):
 
 	try:
-			
+		
+		result = b''
+		err = ''
 		_t1 = time.time()
 
 		sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
