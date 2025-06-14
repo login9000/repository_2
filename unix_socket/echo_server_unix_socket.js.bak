@@ -2,7 +2,7 @@ const fs = require('fs');
 const net = require('net');
 
 var app_version = '1.0',
-echo_server_unix_socket = '/tmp/echo_server_unix_socket.sock';
+		echo_server_unix_socket = '/tmp/echo_server_unix_socket.sock';
 
 async function remove_unix_socket(){
 	if(process.platform != 'linux'){
