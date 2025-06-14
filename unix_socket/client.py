@@ -21,7 +21,7 @@ y = 0
 _d_sum = 0
 is_first_second = False
 
-for _ in range(10000):
+for _ in range(100000):
 
 	try:
 		
