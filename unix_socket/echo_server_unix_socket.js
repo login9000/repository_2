@@ -21,7 +21,7 @@ async function handler(socket, body){
 (async () => {
 	try{
 		await remove_unix_socket();
-		console_log_pass('I: echo_server_unix_socket v'+app_version);
+		console.log('echo_server_unix_socket v'+app_version);
 		var server = net.createServer(function(socket) {
 			var body = '';
 			socket.on('data', function(data) {
