@@ -1,0 +1,52 @@
+const fs = require('fs');
+const net = require('net');
+
+var app_version = '1.0',
+echo_server_unix_socket = '/tmp/echo_server_unix_socket.sock';
+
+async function remove_unix_socket(){
+	if(process.platform != 'linux'){
+		return;
+	}
+	try {
+		await fs.promises.access(echo_server_unix_socket);
+		fs.unlinkSync(echo_server_unix_socket);
+	} catch (e) {}
+}
+
+async function handler(socket, body){
+	socket.write(body+'\r\n');
+}
+
+(async () => {
+	try{
+		await remove_unix_socket();
+		console_log_pass('I: echo_server_unix_socket v'+app_version);
+		var server = net.createServer(function(socket) {
+			var body = '';
+			socket.on('data', function(data) {
+				var data = String(data);
+				var ex = data.split(/\n/);
+				var len = ex.length;
+				for(var i = 0; i < len; i++){
+					if(ex[i] ){
+						body += ex[i];
+						if(i + 1 < len){
+							handler(socket, body);
+							body = '';
+						}
+					}
+				}
+			});
+		});
+		server.listen(echo_server_unix_socket);
+		server.on('listening', function() {
+			console.log('listening '+echo_server_unix_socket+'...');
+		});
+	}catch(err){
+		var err = (err.stack ? String(err.stack) : err);
+		console.log(err.replace(/\r?\n/g, ' '));
+	}
+})();
+
+
