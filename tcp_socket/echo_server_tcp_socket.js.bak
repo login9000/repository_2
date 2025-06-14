@@ -9,8 +9,7 @@ async function handler(socket, body){
 
 (async () => {
 	try{
-		
-		console.log('echo_server_unix_socket v'+app_version);
+		console.log('echo_server_tcp_socket v'+app_version);
 		var server = net.createServer(function(socket) {
 			var body = '';
 			socket.on('data', function(data) {
